@@ -13,7 +13,7 @@ employee3 <- function(fname, lname) {
   # build the object (ie set member variables)
   e$fname = fname
   e$lname = lname
-  e$salary - 55000
+  e$salary = 100
   e$union = TRUE
   # return the object
   return(e)
@@ -44,12 +44,39 @@ print.employee3 <- function(wrkr) {
 #' @return S3 class object
 #' @export
 tmpemployee3 <- function(fname, lname) {
-  e <- list(fname = fname, lname = lname, salary = 25000, union = T, tmp = T)
+  e <- list(fname = fname, lname = lname, salary = 50, union = T, tmp = T)
   # R looks for methods in the order in which they appear in the class vector
   class(e) <- c("tmpemployee3","employee3")
   return(e)
 }
 
+
+#'
+#'
+#'
 print.tmpemployee3 <- function(wrkr) {
-  cat(wrkr$fname,wrkr$lname,"is a temp worker\n")
+  cat(wrkr$fname,wrkr$lname,"is a temp worker with salary: ",wrkr$salary,"\n")
 }
+
+
+#' generic function for raise
+#' method dispatch starts with the generic function that decides which specific
+#' method to dispatch to.
+#'
+raise <- function(x, ...) {
+  # generic method all have the same form -- specify the generic name and the
+  # object to dispatch on
+  UseMethod("raise", x)
+}
+
+
+#'
+#'
+#'
+raise.employee3 <- function(x, amt) {
+  n <- x$salary + amt
+  cat("new salary amt for",x$fname,x$lname,"is:",n,"\n")
+  x$salary <- n
+}
+
+
